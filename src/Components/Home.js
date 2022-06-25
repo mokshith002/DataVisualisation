@@ -1,32 +1,23 @@
 import React from "react";
 import * as XLSX from "xlsx"
 import {Button, TextField} from "@mui/material"
+import axios from "axios"
+import ScatterPlot from "./IrisData/ScatterPlot";
+import { useHistory } from "react-router-dom";
 
-export default function Home(){
+export default function Home(props){
 
-    const [file, setFile] = React.useState(null)
 
-    const handleChange = (e) => {
-      setFile(e.target.files[0])
-    };
+    const {file, handleChange} = props
+    const [graph, setGraph] = React.useState("")
 
-    const parseData = async () => {
-      const data = await file.arrayBuffer();
-        const workbook = XLSX.read(data);
+    let history = useHistory()
 
-        const worksheet = workbook.Sheets[workbook.SheetNames[0]];
-        const jsonData = XLSX.utils.sheet_to_json(worksheet);
+    // console.log(graph == );
 
-        console.log(jsonData);
+    const handleClick = () => {
+      history.push(`/${graph}`)
     }
-
-    React.useEffect(() => {
-      if(file){
-        parseData();
-      }
-    }, [file])
-
-    console.log("Home");
 
     return(
       <div className="p-5 container" >
@@ -43,6 +34,21 @@ export default function Home(){
             class="form-control w-25"  
             value={file ? file.name : "No File Chosen"} />
         </div>
+        <div className="d-flex justify-content-center mt-4">
+          <select
+              class="form-select w-25"
+              value={graph}
+              onChange={(e) => {setGraph(e.target.value)}}
+            >
+              <option value="">Select Graph Type</option>
+              <option value="scatter-plot">Scatter Plot</option>
+
+          </select>
+        </div>
+        <div className="d-flex justify-content-center mt-4">
+          <Button className="w-15" variant='contained' component='label' onClick={handleClick}>Submit</Button>
+        </div>
+
       </div>
     )
 }
