@@ -42,7 +42,7 @@ export default function Home(props){
             >
               <option value="">Select Graph Type</option>
               <option value="scatter-plot">Scatter Plot</option>
-
+              <option value="line-chart">Line Chart</option>
           </select>
         </div>
         <div className="d-flex justify-content-center mt-4">

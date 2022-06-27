@@ -5,6 +5,7 @@ import ScatterPlot from "./Components/IrisData/ScatterPlot"
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React, {useState, useEffect} from "react";
+import LineCharts from "./Components/IrisData/LineChart";
 
 
 function App() {
@@ -42,6 +43,7 @@ function App() {
         <Switch>
           <Route exact path='/'><Home handleChange={handleChange} file={file}/></Route>
           {file != null && <Route path='/scatter-plot'><ScatterPlot filename={file.name} data={data} headers={headers}  /></Route>}
+          {file != null && <Route path='/line-chart'><LineCharts filename={file.name} data={data} headers={headers}  /></Route>}
         </Switch>
       </Router>
     </div>

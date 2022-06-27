@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { ScatterChart, Scatter, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend,} from "recharts";
-import AttributeOptions from "./AttributeOptions";
+import AttributeOptions from "./Miscellaneous";
+import { generateRandomColor } from "./Miscellaneous";
 
 
-export default function LineChart(props){
+export default function ScatterPlot(props){
 
     const {data, headers, filename} = props;
 
@@ -14,21 +15,14 @@ export default function LineChart(props){
     const [formData, setFormData] = React.useState({
         groupBy: "",
         xAxis: "",
-        yAxis: ""
+        yAxis: "",
     })
-
-
-    function generateRandomColor() {
-      let maxVal = 0xffffff; // 16777215
-      let randomNumber = Math.random() * maxVal;
-      randomNumber = Math.floor(randomNumber);
-      randomNumber = randomNumber.toString(16);
-      let randColor = randomNumber.padStart(6, 0);
-      return `#${randColor.toUpperCase()}`;
-    }
+    const [checkBoxes, setCheckBoxes] = useState({})
 
 
     const generateScatterComponents = () => {
+
+      // console.log(types);
 
         if(types.length == 0){
           setScatterPlots(
@@ -43,7 +37,9 @@ export default function LineChart(props){
             formattedData.push(arr)
         })
 
-        setScatterPlots(() => formattedData.map((arr) => { 
+        setScatterPlots(() => formattedData
+          .filter(arr => checkBoxes[arr[0][formData.groupBy]])
+          .map((arr) => { 
             return <Scatter
                 name={arr[0][formData.groupBy]}
                 data={arr}
@@ -51,6 +47,13 @@ export default function LineChart(props){
             />
         }))
     }
+
+    const generateCheckBoxes = () => {
+      let obj = {}
+      types.forEach(type => obj = {...obj, [type]: true})
+      setCheckBoxes(({...obj}))
+    }
+
 
     const handleChange = (e) => {
         const {name, value} = e.target;
@@ -60,12 +63,29 @@ export default function LineChart(props){
         }))
     }
 
+    const handleCheckBoxChange = (e) => {
+      const {name} = e.target;
+      setCheckBoxes(prev => ({
+        ...prev,
+        [name]: !prev[name]
+      }))
+    }
+
     React.useEffect(() => {        
-        generateScatterComponents()
+        generateCheckBoxes()
+        generateScatterComponents();
     },[types])
 
     React.useEffect(() => {
+      generateScatterComponents();
+    },[checkBoxes])
+
+    React.useEffect(() => {
       formData.groupBy == "" ? setTypes([]) : setTypes([...new Set(data.map((row) => row[formData.groupBy]))]);
+    },[formData])
+
+    React.useEffect(() => {
+      // console.log(formData);
     },[formData])
 
     React.useEffect(() => {
@@ -90,6 +110,12 @@ export default function LineChart(props){
           <AttributeOptions handleChange={handleChange} value={formData.groupBy} name="groupBy" options={typeOptions} text="Chose attributes to Group by"/>
           <AttributeOptions handleChange={handleChange} value={formData.xAxis} name="xAxis" options={numericOptions} text="Chose X axis"/>
           <AttributeOptions handleChange={handleChange} value={formData.yAxis} name="yAxis" options={numericOptions} text="Chose Y axis"/>
+        </div>
+
+        {/* <CheckBoxes types={types} handleChange={handleCheckBoxChange} checkStates={checkBoxes}/> */}
+
+        <div class="d-flex justify-content-between w-75 mb-4">
+          {types.map(type => <div><input checked={checkBoxes[type]} name={type} onChange={handleCheckBoxChange} type="checkbox"/>&nbsp; {type}</div>)}
         </div>
 
         <ResponsiveContainer width="80%" height={600}>
