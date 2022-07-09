@@ -7,15 +7,22 @@ import { useHistory } from "react-router-dom";
 
 export default function Home(props){
 
+  const URL = "http://127.0.0.1:5000"
+
 
     const {file, handleChange} = props
     const [graph, setGraph] = React.useState("")
 
-    let history = useHistory()
-
-    // console.log(graph == );
+    let history = useHistory() 
 
     const handleClick = () => {
+      
+      const data = new FormData()
+
+      data.append('file', file)
+
+      axios.post(`${URL}/api/upload`, data, {}).then(res => console.log(res))
+
       history.push(`/${graph}`)
     }
 
@@ -27,7 +34,7 @@ export default function Home(props){
           </div>
         </div>
         <div className="d-flex justify-content-center mt-4">
-          <Button className="w-15" variant='contained' component='label'>Chose file
+          <Button className="w-15" variant='contained' component='label'>Choose file
             <input className="form-control primary" type="file" accept=".csv,.xlsx" id="formFile" hidden onChange={(e) => handleChange(e)}/>
           </Button>
           <input 

@@ -27,7 +27,11 @@ function App() {
         const worksheet = workbook.Sheets[workbook.SheetNames[0]];
         setData(XLSX.utils.sheet_to_json(worksheet));
 
-        const headings = XLSX.utils.sheet_to_csv(worksheet).toString().split('\n')[0].split(',');
+        const headings = XLSX.utils
+          .sheet_to_csv(worksheet)
+          .toString()
+          .split('\n')[0]
+          .split(',');
         
         setHeaders(headings)
   }
@@ -42,8 +46,24 @@ function App() {
       <Router>
         <Switch>
           <Route exact path='/'><Home handleChange={handleChange} file={file}/></Route>
-          {file != null && <Route path='/scatter-plot'><ScatterPlot filename={file.name} data={data} headers={headers}  /></Route>}
-          {file != null && <Route path='/line-chart'><LineCharts filename={file.name} data={data} headers={headers}  /></Route>}
+          {file != null && 
+            <Route path='/scatter-plot'>
+              <ScatterPlot 
+                filename={file.name} 
+                data={data} 
+                headers={headers}  
+              />
+            </Route>
+            }
+          {file != null && 
+            <Route path='/line-chart'>
+              <LineCharts 
+                filename={file.name} 
+                data={data} 
+                headers={headers}  
+              />
+            </Route>
+          }
         </Switch>
       </Router>
     </div>

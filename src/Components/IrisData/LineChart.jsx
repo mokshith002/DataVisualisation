@@ -36,13 +36,17 @@ export default function LineCharts(props) {
 
     useEffect(() => {
       let obj = {}
-      numericOptions.forEach(option => obj = {...obj, option: false})
+      numericOptions.forEach(option => obj = {...obj, [option]: false})
       setFormData(prev => ({...prev, ...obj}))
     },[numericOptions])
 
-    React.useEffect(() => {
+    useEffect(() => {
       setAxesOptions([...new Set(headers)]);
-      setNumericOptions([...new Set(headers)].filter(header => typeof data[0][header] == "number"));
+      setNumericOptions([...new Set(headers)]
+          .filter(header => 
+            typeof data[0][header] == "number"
+          )
+        );
     }, []);
     
     
@@ -67,7 +71,20 @@ export default function LineCharts(props) {
 
         <div class="d-flex justify-content-between w-75 mb-4">
           <label class="form-label">Chose Y axis</label>
-          {numericOptions.map(numericOption => <div><input checked={formData[numericOption]} name={numericOption} onChange={handleCheckBoxChange} type="checkbox"/>&nbsp; {numericOption}</div>)}
+          {
+
+            numericOptions.map(numericOption => 
+              <div>
+                <input 
+                  checked={formData[numericOption]} 
+                  name={numericOption} 
+                  onChange={handleCheckBoxChange} 
+                  type="checkbox"
+                /> 
+                &nbsp; {numericOption}
+              </div>)
+
+          }
         </div>
 
         <ResponsiveContainer width="90%" height={600}>
@@ -87,9 +104,18 @@ export default function LineCharts(props) {
             <YAxis tickCount={10}/>
             <Tooltip />
             <Legend />
-            {/* <Line type="monotone" dataKey={formData.yAxis} stroke="#1421a8" activeDot={{r : 8}}/> */}
             {
-              numericOptions.filter(option => formData[option]).map(dataKey => <Line type="monotone" dataKey={dataKey} stroke={generateRandomColor()} activeDot={{r:8}}/>)
+
+              numericOptions.filter(option => 
+                formData[option]).map(dataKey => 
+                  <Line 
+                    type="monotone" 
+                    dataKey={dataKey} 
+                    stroke={generateRandomColor()}
+                     activeDot={{r:8}}
+                  />
+                )
+
             }
           </LineChart>
         </ResponsiveContainer>

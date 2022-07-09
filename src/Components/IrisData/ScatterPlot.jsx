@@ -20,12 +20,13 @@ export default function ScatterPlot(props){
     const [checkBoxes, setCheckBoxes] = useState({})
 
 
+    
+    // console.log(types);
+    
     const generateScatterComponents = () => {
-
-      // console.log(types);
-
-        if(types.length == 0){
-          setScatterPlots(
+    
+      if(types.length == 0){
+        setScatterPlots(
             <Scatter name="All" data={data} fill={generateRandomColor()} />
           );
           return 
@@ -119,10 +120,27 @@ export default function ScatterPlot(props){
         </div>
 
         <ResponsiveContainer width="80%" height={600}>
-          <ScatterChart width={400} height={400} margin={{ top: 20, right: 20, bottom: 20, left: 20,}} >
+          <ScatterChart width={400} 
+            height={400} 
+            margin={{ top: 20, right: 20, bottom: 20, left: 20,}} 
+          >
           <CartesianGrid />
-            <XAxis type="number" dataKey={formData.xAxis} name={formData.xAxis} unit="cm" domain={["auto", "auto"]} tickCount="10"/>
-            <YAxis type="number" dataKey={formData.yAxis} name={formData.yAxis} unit="cm" domain={["auto", "auto"]} tickCount="10"/>
+            <XAxis 
+              type="number" 
+              dataKey={formData.xAxis} 
+              name={formData.xAxis} 
+              unit="cm" 
+              domain={["auto", "auto"]} 
+              tickCount="10"
+            />
+            <YAxis 
+              type="number" 
+              dataKey={formData.yAxis} 
+              name={formData.yAxis} 
+              unit="cm" 
+              domain={["auto", "auto"]} 
+              tickCount="10"
+            />
             <Tooltip cursor={{ strokeDasharray: "3 3" }} />
             <Legend />
             {scatterPlots}
