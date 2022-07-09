@@ -6,6 +6,8 @@ import ScatterPlot from "./Components/IrisData/ScatterPlot"
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React, {useState, useEffect} from "react";
 import LineCharts from "./Components/IrisData/LineChart";
+import Login from "./Components/Login/Login";
+import Register from "./Components/Login/Register";
 
 
 function App() {
@@ -46,6 +48,8 @@ function App() {
       <Router>
         <Switch>
           <Route exact path='/'><Home handleChange={handleChange} file={file}/></Route>
+          <Route exact path='/login'><Login/></Route>
+          <Route exact path='/register'><Register/></Route>
           {file != null && 
             <Route path='/scatter-plot'>
               <ScatterPlot 
