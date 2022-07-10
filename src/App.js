@@ -8,6 +8,7 @@ import React, {useState, useEffect} from "react";
 import LineCharts from "./Components/IrisData/LineChart";
 import Login from "./Components/Login/Login";
 import Register from "./Components/Login/Register";
+import BoxPlot from "./Components/IrisData/BoxPlot";
 
 
 function App() {
@@ -58,7 +59,16 @@ function App() {
                 headers={headers}  
               />
             </Route>
-            }
+          }
+          {file != null && 
+            <Route path='/box-plot'>
+              <BoxPlot
+                filename={file.name} 
+                data={data} 
+                headers={headers}  
+              />
+            </Route>
+          }
           {file != null && 
             <Route path='/line-chart'>
               <LineCharts 
