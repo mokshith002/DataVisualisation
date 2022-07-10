@@ -50,6 +50,7 @@ export default function Home(props){
               <option value="">Select Graph Type</option>
               <option value="scatter-plot">Scatter Plot</option>
               <option value="box-plot">Box Plot</option>
+              <option value="bean-plot">Bean Plot</option>
               <option value="line-chart">Line Chart</option>
           </select>
         </div>

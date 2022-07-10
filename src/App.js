@@ -9,6 +9,7 @@ import LineCharts from "./Components/IrisData/LineChart";
 import Login from "./Components/Login/Login";
 import Register from "./Components/Login/Register";
 import BoxPlot from "./Components/IrisData/BoxPlot";
+import BeanPlot from "./Components/IrisData/BeanPlot";
 
 
 function App() {
@@ -63,6 +64,15 @@ function App() {
           {file != null && 
             <Route path='/box-plot'>
               <BoxPlot
+                filename={file.name} 
+                data={data} 
+                headers={headers}  
+              />
+            </Route>
+          }
+          {file != null && 
+            <Route path='/bean-plot'>
+              <BeanPlot
                 filename={file.name} 
                 data={data} 
                 headers={headers}  
