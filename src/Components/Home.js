@@ -57,6 +57,7 @@ export default function Home(props){
               <option value="percent-area-chart">Percent Area Chart</option>
               <option value="candlestick">Candlestick Chart</option>
               <option value="radar-chart">Radar Chart</option>
+              <option value="bar-graph">Bar Graph</option>
           </select>
         </div>
         <div className="d-flex justify-content-center mt-4">

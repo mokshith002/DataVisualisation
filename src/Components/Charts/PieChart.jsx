@@ -3,7 +3,7 @@ import AttributeOptions, {generateRandomColor} from "./Miscellaneous";
 import Plot from 'react-plotly.js';
 
 
-export default function RadarPlot(props){
+export default function PieChart(props){
 
     const {data, headers, filename} = props;
 

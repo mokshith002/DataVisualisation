@@ -3,48 +3,49 @@ import AttributeOptions, {generateRandomColor} from "./Miscellaneous";
 import Plot from 'react-plotly.js';
 
 
-export default function RadarChart(props){
+export default function BarGraph(props){
 
     const {data, headers, filename} = props;
 
     const [types, setTypes] = React.useState([])
-    const [radarPlot, setRadarPlot] = React.useState()
+    const [barGraph, setBarGraph] = React.useState()
     const [numericOptions, setNumericOptions] = React.useState([])
     const [typeOptions, setTypeOptions] = React.useState([])
     const [formData, setFormData] = React.useState({
         groupBy: "",
     })
     const [checkBoxes, setCheckBoxes] = useState({})
-    
+
 
     
-    
-    
-    const generateRadarPlot = () => {
+    const generateBarGraph = () => {
+
+        const filteredOptions = numericOptions.filter(lab => lab != formData.groupBy && checkBoxes[lab]);
+        console.log(checkBoxes);
+        console.log(filteredOptions);
         
-        if(types.length === 0) return;
-        
-        const filteredOptions = numericOptions.filter(heading => heading != formData.groupBy);  
-        
-        const plot = data.filter(row => checkBoxes[row[formData.groupBy]]).map(row => ({
-            type: 'scatterpolar',
-            r: [...filteredOptions.map(op => row[op]), row[filteredOptions[0]]],
-            theta: [...filteredOptions, filteredOptions[0]],
-            fill: 'toself',
-            name: row[formData.groupBy]
+        const plot = filteredOptions.map(col => ({
+
+            x: types,
+            y: data.map(row => row[col]),
+            type: 'bar',
+            name: col,
+            // marker: {
+            //     color: generateRandomColor(),
+            //     opacity: 0.5
+            // }
+            
         }))
-        
-   
 
-      console.log(plot);
+        console.log(plot);
 
-      setRadarPlot(plot);        
-      
+        setBarGraph(plot);        
+
     }
 
     const generateCheckBoxes = () => {
       let obj = {}
-      types.forEach(type => obj = {...obj, [type]: true})
+      numericOptions.filter(lab => lab != formData.groupBy).forEach(op => obj = {...obj, [op]: true})
       setCheckBoxes(({...obj}))
     }
 
@@ -70,7 +71,7 @@ export default function RadarChart(props){
     },[types])
 
     React.useEffect(() => {
-      generateRadarPlot();
+      generateBarGraph();
     },[checkBoxes])
 
     React.useEffect(() => {
@@ -89,7 +90,7 @@ export default function RadarChart(props){
         <div class="row text-center">
           <div class="row">
             <h2>
-              Box Plot for <u><i>{filename}</i></u>
+              Bar Graph for <u><i>{filename}</i></u>
             </h2>
           </div>
         </div>
@@ -100,23 +101,11 @@ export default function RadarChart(props){
 
 
         <div class="d-flex justify-content-between w-75 mb-4">
-          {types.map(type => <div><input checked={checkBoxes[type]} name={type} onChange={handleCheckBoxChange} type="checkbox"/>&nbsp; {type}</div>)}
+          {numericOptions.filter(lab => lab != formData.groupBy).map(type => <div><input checked={checkBoxes[type]} name={type} onChange={handleCheckBoxChange} type="checkbox"/>&nbsp; {type}</div>)}
         </div>
 
 
-        {radarPlot && <Plot data={radarPlot} layout={
-          {
-            width:1300, 
-            height:500, 
-            boxmode:'group', 
-            polar: {
-              radialaxis: {
-                visible: true,
-                range: [0, Math.max(...([].concat(...[...data.map(obj => [...Object.values(obj).filter(val => typeof val === 'number')])])))]
-              }
-            }
-          }
-        }/>}
+        {barGraph && <Plot data={barGraph} layout={{ width:1300, height:500, barmode: 'group'}}/>}
 
       </div>
 

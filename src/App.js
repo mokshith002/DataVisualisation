@@ -13,8 +13,9 @@ import BeanPlot from "./Components/Charts/BeanPlot";
 import CandleStick from "./Components/Charts/CandleStick";
 import StackedAreaChart from "./Components/Charts/StackedAreaChart";
 import PercentAreaChart from "./Components/Charts/PercentAreaChart";
-import RadarPlot from "./Components/Charts/RadarChart";
 import PieChart from "./Components/Charts/PieChart"
+import RadarChart from "./Components/Charts/RadarChart";
+import BarGraph from "./Components/Charts/BarGraph";
 
 
 function App() {
@@ -77,7 +78,7 @@ function App() {
           }
           {file != null && 
             <Route path='/radar-chart'>
-              <RadarPlot
+              <RadarChart
                 filename={file.name} 
                 data={data} 
                 headers={headers}  
@@ -132,6 +133,15 @@ function App() {
           {file != null && 
             <Route path='/candlestick'>
               <CandleStick 
+                filename={file.name} 
+                data={data} 
+                headers={headers}  
+              />
+            </Route>
+          }
+          {file != null && 
+            <Route path='/bar-graph'>
+              <BarGraph 
                 filename={file.name} 
                 data={data} 
                 headers={headers}  
