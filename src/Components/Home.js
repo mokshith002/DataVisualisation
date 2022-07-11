@@ -52,6 +52,7 @@ export default function Home(props){
               <option value="box-plot">Box Plot</option>
               <option value="bean-plot">Bean Plot</option>
               <option value="line-chart">Line Chart</option>
+              <option value="candlestick">Candlestick Chart</option>
           </select>
         </div>
         <div className="d-flex justify-content-center mt-4">

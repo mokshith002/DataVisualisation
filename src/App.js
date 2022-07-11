@@ -10,6 +10,7 @@ import Login from "./Components/Login/Login";
 import Register from "./Components/Login/Register";
 import BoxPlot from "./Components/IrisData/BoxPlot";
 import BeanPlot from "./Components/IrisData/BeanPlot";
+import CandleStick from "./Components/IrisData/CandleStick";
 
 
 function App() {
@@ -82,6 +83,15 @@ function App() {
           {file != null && 
             <Route path='/line-chart'>
               <LineCharts 
+                filename={file.name} 
+                data={data} 
+                headers={headers}  
+              />
+            </Route>
+          }
+          {file != null && 
+            <Route path='/candlestick'>
+              <CandleStick 
                 filename={file.name} 
                 data={data} 
                 headers={headers}  
