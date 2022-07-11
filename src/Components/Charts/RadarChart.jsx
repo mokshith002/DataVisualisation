@@ -3,37 +3,43 @@ import AttributeOptions, {generateRandomColor} from "./Miscellaneous";
 import Plot from 'react-plotly.js';
 
 
-export default function BeanPlot(props){
+export default function RadarPlot(props){
 
     const {data, headers, filename} = props;
 
     const [types, setTypes] = React.useState([])
-    const [boxPlot, setBoxPlot] = React.useState()
+    const [radarPlot, setRadarPlot] = React.useState()
     const [numericOptions, setNumericOptions] = React.useState([])
     const [typeOptions, setTypeOptions] = React.useState([])
     const [formData, setFormData] = React.useState({
         groupBy: "",
-        xAxis: headers[0],
     })
     const [checkBoxes, setCheckBoxes] = useState({})
-
+    
 
     
-    const generateBoxPlot = () => {
-
+    
+    
+    const generateRadarPlot = () => {
         
-        const plot = [{
-            x: data.filter(ele => checkBoxes[ele[formData.groupBy]]).map(ele => ele[formData.groupBy]),
-            y: data.filter(ele => checkBoxes[ele[formData.groupBy]]).map(ele => ele[formData.xAxis]),
-            type: 'violin',
-            marker: {color: "#23c233"}
-        }]
+        if(types.length === 0) return;
+        
+        const filteredOptions = numericOptions.filter(heading => heading != formData.groupBy);  
+        
+        const plot = data.filter(row => checkBoxes[row[formData.groupBy]]).map(row => ({
+            type: 'scatterpolar',
+            r: [...filteredOptions.map(op => row[op]), row[filteredOptions[0]]],
+            theta: [...filteredOptions, filteredOptions[0]],
+            fill: 'toself',
+            name: row[formData.groupBy]
+        }))
+        
+   
 
-        console.log(plot);
+      console.log(plot);
 
-        setBoxPlot(plot);        
-
-        setBoxPlot(plot);        
+      setRadarPlot(plot);        
+      
     }
 
     const generateCheckBoxes = () => {
@@ -64,7 +70,7 @@ export default function BeanPlot(props){
     },[types])
 
     React.useEffect(() => {
-      generateBoxPlot();
+      generateRadarPlot();
     },[checkBoxes])
 
     React.useEffect(() => {
@@ -73,7 +79,7 @@ export default function BeanPlot(props){
 
 
     React.useEffect(() => {
-        setTypeOptions([...new Set(headers.filter(header => typeof data[0][header] == "string"))])
+        setTypeOptions([...new Set(headers)])
         setNumericOptions([...new Set(headers.filter(header => typeof data[0][header] == "number"))])
     },[])
 
@@ -83,14 +89,13 @@ export default function BeanPlot(props){
         <div class="row text-center">
           <div class="row">
             <h2>
-              Bean Plot for <u><i>{filename}</i></u>
+              Box Plot for <u><i>{filename}</i></u>
             </h2>
           </div>
         </div>
 
         <div class="d-flex justify-content-between w-75 mb-4">
           <AttributeOptions handleChange={handleChange} value={formData.groupBy} name="groupBy" options={typeOptions} text="Chose attributes to Group by"/>
-          <AttributeOptions handleChange={handleChange} value={formData.xAxis} name="xAxis" options={numericOptions} text="Chose X axis"/>
         </div>
 
 
@@ -99,7 +104,19 @@ export default function BeanPlot(props){
         </div>
 
 
-        {boxPlot && <Plot data={boxPlot} layout={{width:1300, height:500, violinmode:'group'}}/>}
+        {radarPlot && <Plot data={radarPlot} layout={
+          {
+            width:1300, 
+            height:500, 
+            boxmode:'group', 
+            polar: {
+              radialaxis: {
+                visible: true,
+                range: [0, Math.max(...([].concat(...[...data.map(obj => [...Object.values(obj).filter(val => typeof val === 'number')])])))]
+              }
+            }
+          }
+        }/>}
 
       </div>
 

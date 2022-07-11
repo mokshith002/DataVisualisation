@@ -74,7 +74,7 @@ export default function PercentAreaChart(props){
         <div class="row text-center">
           <div class="row">
             <h2>
-              Line Chart for{" "}
+              Percent Chart for{" "}
               <u>
                 <i>{filename}</i>
               </u>

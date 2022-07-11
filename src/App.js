@@ -13,6 +13,7 @@ import BeanPlot from "./Components/Charts/BeanPlot";
 import CandleStick from "./Components/Charts/CandleStick";
 import StackedAreaChart from "./Components/Charts/StackedAreaChart";
 import PercentAreaChart from "./Components/Charts/PercentAreaChart";
+import RadarPlot from "./Components/Charts/RadarChart";
 
 
 function App() {
@@ -67,6 +68,15 @@ function App() {
           {file != null && 
             <Route path='/box-plot'>
               <BoxPlot
+                filename={file.name} 
+                data={data} 
+                headers={headers}  
+              />
+            </Route>
+          }
+          {file != null && 
+            <Route path='/radar-chart'>
+              <RadarPlot
                 filename={file.name} 
                 data={data} 
                 headers={headers}  

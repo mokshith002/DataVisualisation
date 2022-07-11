@@ -82,7 +82,7 @@ export default function CandleStick(props) {
         <div class="row text-center">
           <div class="row">
             <h2>
-              Line Chart for{" "}
+              Candlestick Chart for{" "}
               <u>
                 <i>{filename}</i>
               </u>
