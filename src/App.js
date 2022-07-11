@@ -1,16 +1,18 @@
 import * as XLSX from "xlsx"
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import Home from './Components/Home';
-import ScatterPlot from "./Components/IrisData/ScatterPlot"
+import ScatterPlot from "./Components/Charts/ScatterPlot"
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React, {useState, useEffect} from "react";
-import LineCharts from "./Components/IrisData/LineChart";
+import LineCharts from "./Components/Charts/LineChart";
 import Login from "./Components/Login/Login";
 import Register from "./Components/Login/Register";
-import BoxPlot from "./Components/IrisData/BoxPlot";
-import BeanPlot from "./Components/IrisData/BeanPlot";
-import CandleStick from "./Components/IrisData/CandleStick";
+import BoxPlot from "./Components/Charts/BoxPlot";
+import BeanPlot from "./Components/Charts/BeanPlot";
+import CandleStick from "./Components/Charts/CandleStick";
+import StackedAreaChart from "./Components/Charts/StackedAreaChart";
+import PercentAreaChart from "./Components/Charts/PercentAreaChart";
 
 
 function App() {
@@ -83,6 +85,24 @@ function App() {
           {file != null && 
             <Route path='/line-chart'>
               <LineCharts 
+                filename={file.name} 
+                data={data} 
+                headers={headers}  
+              />
+            </Route>
+          }
+          {file != null && 
+            <Route path='/stacked-area-chart'>
+              <StackedAreaChart 
+                filename={file.name} 
+                data={data} 
+                headers={headers}  
+              />
+            </Route>
+          }
+          {file != null && 
+            <Route path='/percent-area-chart'>
+              <PercentAreaChart 
                 filename={file.name} 
                 data={data} 
                 headers={headers}  

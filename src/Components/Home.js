@@ -2,7 +2,7 @@ import React from "react";
 import * as XLSX from "xlsx"
 import {Button, TextField} from "@mui/material"
 import axios from "axios"
-import ScatterPlot from "./IrisData/ScatterPlot";
+import ScatterPlot from "./Charts/ScatterPlot";
 import { useHistory } from "react-router-dom";
 
 export default function Home(props){
@@ -52,6 +52,8 @@ export default function Home(props){
               <option value="box-plot">Box Plot</option>
               <option value="bean-plot">Bean Plot</option>
               <option value="line-chart">Line Chart</option>
+              <option value="stacked-area-chart">Stacked Area Chart</option>
+              <option value="percent-area-chart">Percent Area Chart</option>
               <option value="candlestick">Candlestick Chart</option>
           </select>
         </div>
