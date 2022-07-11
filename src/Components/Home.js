@@ -52,6 +52,7 @@ export default function Home(props){
               <option value="box-plot">Box Plot</option>
               <option value="bean-plot">Bean Plot</option>
               <option value="line-chart">Line Chart</option>
+              <option value="pie-chart">Pie Chart</option>
               <option value="stacked-area-chart">Stacked Area Chart</option>
               <option value="percent-area-chart">Percent Area Chart</option>
               <option value="candlestick">Candlestick Chart</option>
