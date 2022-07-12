@@ -1,5 +1,5 @@
 from datetime import datetime
-from flask import request
+from flask import request,current_app
 from flask_restful import Resource
 import os
 import re
@@ -7,10 +7,38 @@ from application.database import db
 from application.models import Visualization
 from application.firebaseConfig import storage
 
+def get_extension(name):
+    if re.search(".csv$",name):
+        return ".csv"
+    else:
+        return ".xlsx"
+
 class FileAPI(Resource):
 
-    def post(self):
+    def get(self):
+        data = request.get_json()
+        uid = data['user_id']
+        time = data['time']
+        v = Visualization.query.filter_by(user_id=uid,time=time).first()
+        cloud_name = str(v.vid) + get_extension(v.filename)
+        local_name = v.filename 
+        storage.child("files/"+cloud_name).download("",local_name)
+     
+        app = current_app
+        path = os.path.join(os.getcwd(),local_name)
+        file = open(path,'rb')
 
+        def remove():
+            yield from file
+            file.close()
+            os.remove(path)
+
+        return app.response_class(
+            remove(),
+            headers={'Content-Disposition':'attachment', 'filename': v.filename}
+        )
+
+    def post(self):
         file = request.files['file']
 
         v=Visualization()
@@ -21,11 +49,7 @@ class FileAPI(Resource):
         db.session.commit()
 
         name=str(v.vid)
-
-        if re.search(".csv$",file.filename):
-            name+=".csv"
-        else:
-            name+=".xlsx"
+        name+=get_extension(file.filename)        
         
         path=os.path.join(os.getcwd(),name)
         file.save(path)
