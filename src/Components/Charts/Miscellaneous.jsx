@@ -8,7 +8,7 @@ export default function AttributeOptions(props) {
     <div class="mb-b ml-3 mt-5">
       <label class="form-label">{text}</label>
       <select
-        class="ui search dropdown w-100"
+        class="ui search dropdown w-100 form-select"
         name={name}
         value={value}
         onChange={handleChange}
