@@ -16,6 +16,7 @@ import PercentAreaChart from "./Components/Charts/PercentAreaChart";
 import PieChart from "./Components/Charts/PieChart"
 import RadarChart from "./Components/Charts/RadarChart";
 import BarGraph from "./Components/Charts/BarGraph";
+import HistoryPage from "./Components/History/Page";
 
 
 function App() {
@@ -58,6 +59,7 @@ function App() {
           <Route exact path='/'><Home handleChange={handleChange} file={file}/></Route>
           <Route exact path='/login'><Login/></Route>
           <Route exact path='/register'><Register/></Route>
+          <Route exact path='/history'><HistoryPage/></Route>
           {file != null && 
             <Route path='/scatter-plot'>
               <ScatterPlot 

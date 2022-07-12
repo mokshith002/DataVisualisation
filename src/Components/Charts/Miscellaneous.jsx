@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import Select from "react-select"
 
 export default function AttributeOptions(props) {
   const { name, value, options, handleChange, text } = props;
@@ -7,7 +8,7 @@ export default function AttributeOptions(props) {
     <div class="mb-b ml-3 mt-5">
       <label class="form-label">{text}</label>
       <select
-        class="form-select w-100"
+        class="ui search dropdown w-100"
         name={name}
         value={value}
         onChange={handleChange}

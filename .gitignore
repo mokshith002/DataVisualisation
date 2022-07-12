@@ -30,3 +30,6 @@ __pycache__/
 backend/backend.zip
 
 /backend/application/__pycache__
+
+/backend/files/
+
