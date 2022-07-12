@@ -22,14 +22,10 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-backend/
-
 __pycache__/
 .Python
 
 backend/backend.zip
 
 /backend/application/__pycache__
-
-/backend/files/
-
+.venv
