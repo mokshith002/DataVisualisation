@@ -5,11 +5,13 @@ import os
 import re
 from application.database import db
 from application.models import Visualization
+from application.firebaseConfig import storage
 
-class GraphAPI(Resource):
+class FileAPI(Resource):
+
     def post(self):
+
         file = request.files['file']
-        path=os.path.join(os.getcwd(),'files')
 
         v=Visualization()
         v.user_id = 1
@@ -25,5 +27,8 @@ class GraphAPI(Resource):
         else:
             name+=".xlsx"
         
-        file.save(os.path.join(path,name))
+        path=os.path.join(os.getcwd(),name)
+        file.save(path)
+        storage.child("files/"+name).put(name)
+        os.remove(path)
         return 202
