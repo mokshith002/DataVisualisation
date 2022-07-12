@@ -19,6 +19,6 @@ def create_app():
 app,api = create_app()
 
 from application.api import *
-api.add_resource(GraphAPI,'/api/upload')
+api.add_resource(FileAPI,'/api/upload')
 
 
