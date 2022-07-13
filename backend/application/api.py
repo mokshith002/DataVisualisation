@@ -16,7 +16,7 @@ def get_extension(name):
 class FileAPI(Resource):
 
     def get(self):
-        data = request.get_json()
+        data = request.args
         uid = data['user_id']
         time = data['time']
         v = Visualization.query.filter_by(user_id=uid,time=time).first()

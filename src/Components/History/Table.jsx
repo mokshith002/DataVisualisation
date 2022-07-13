@@ -1,15 +1,33 @@
 import React, {useState, useEffect} from "react";
 import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
 import { Button} from "@mui/material";
+import axios from "axios"
+import { useHistory } from "react-router-dom";
 
 
 export default function Table(props){
 
-  const {data} = props;
+  const {data, passData} = props;
 
-  const onFileSelect = (params) => {
-    //TODO add navigation to file change
-    console.log(params.row.vid);
+  const URL = "http://127.0.0.1:5000";
+
+  const history = useHistory()
+
+  const onFileSelect = async (params) => {
+    
+    const {user_id, time, filename} = params.row
+
+    const req = { user_id, time};
+
+    console.log(req);
+    
+    const res = await axios.get(`${URL}/api/upload`, {params : req});
+
+    passData(res.data, filename)
+
+    console.log(params);
+    history.push('/')
+
   }
 
   const columns = React.useMemo(() => [

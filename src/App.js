@@ -24,11 +24,12 @@ function App() {
   const [file, setFile] = useState();
   const [data, setData] = useState(null)
   const [headers, setHeaders] = React.useState([])
+  const [isPrev, setIsPrev] = React.useState(false)
 
   useEffect(() => {}, [file])
 
   useEffect(() => {
-    if(file != null)
+    if(file != null && !file.flag)
       parseData()
   },[file])
 
@@ -47,6 +48,32 @@ function App() {
         setHeaders(headings)
   }
 
+  const parseHistory = (content, filename) => {
+
+    const rows = content.split('\r\n')
+    const headings = rows[0].split(',');
+
+    setHeaders(headings)
+
+    const _data = [];
+
+    for(let i = 1; i < rows.length; i++){
+      const obj = {}
+      const row = rows[i].split(',')
+      for(let j = 0; j < row.length; j++){
+        obj[headings[j]] = parseFloat(row[j]) ? parseFloat(row[j]) : row[j]
+      }
+      _data.push(obj);
+    }
+
+    console.log(_data);
+
+    setData(_data)
+
+    setFile(({name: filename, flag: true}))
+
+  }
+
   const handleChange = (e) => {
     // localStorage.setItem('file', e.target.files[0])
       setFile(e.target.files[0])
@@ -57,9 +84,9 @@ function App() {
       <Router>
         <Switch>
           <Route exact path='/'><Home handleChange={handleChange} file={file}/></Route>
-          <Route exact path='/login'><Login/></Route>
+          <Route exact path='/login'><Login /></Route>
           <Route exact path='/register'><Register/></Route>
-          <Route exact path='/history'><HistoryPage/></Route>
+          <Route exact path='/history'><HistoryPage passData={parseHistory}/></Route>
           {file != null && 
             <Route path='/scatter-plot'>
               <ScatterPlot 

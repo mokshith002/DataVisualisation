@@ -21,7 +21,7 @@ export default function Home(props){
 
       data.append('file', file)
 
-      axios.post(`${URL}/api/upload`, data, {}).then(res => console.log(res))
+      !file.flag && axios.post(`${URL}/api/upload`, data, {}).then(res => console.log(res))
 
       history.push(`/${graph}`)
     }
