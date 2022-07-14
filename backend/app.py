@@ -20,5 +20,6 @@ app,api = create_app()
 
 from application.api import *
 api.add_resource(FileAPI,'/api/upload')
+api.add_resource(AuthAPI,'/user/auth')
 
 
