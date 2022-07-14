@@ -56,3 +56,4 @@ class FileAPI(Resource):
         storage.child("files/"+name).put(name)
         os.remove(path)
         return 202
+        
