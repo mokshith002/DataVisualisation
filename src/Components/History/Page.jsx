@@ -4,6 +4,18 @@ import HistoryTable from "./Table";
 export default function HistoryPage(props) {
     
 
+    const user_id = localStorage.getItem('user_id');
+
+    if(!user_id){
+       return (
+        <div>
+          <div class="col" style={{display: 'flex',  justifyContent:'center', alignItems:'center', height: '50vh'}}>
+              <div class="row"><h1>Error: Login and Try Again</h1></div>
+          </div>
+        </div>
+      )
+    }
+
     const data = [
       { vid: 20, user_id: 1, filename: `Iris.csv`, time: "2022-07-12 15:46:25.806491" },
     ];

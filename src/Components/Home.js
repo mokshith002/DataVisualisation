@@ -9,19 +9,22 @@ export default function Home(props){
 
   const URL = "http://127.0.0.1:5000"
 
+  const user_id = localStorage.getItem('user_id');
+
 
     const {file, handleChange} = props
     const [graph, setGraph] = React.useState("")
 
     let history = useHistory() 
 
-    const handleClick = () => {
+    const handleClick = async () => {
       
       const data = new FormData()
 
       data.append('file', file)
+      data.append('user_id', user_id)
 
-      !file.flag && axios.post(`${URL}/api/upload`, data, {}).then(res => console.log(res))
+      !file.flag && user_id && await axios.post(`${URL}/api/upload`, data, {}).then(res => console.log(res))
 
       history.push(`/${graph}`)
     }

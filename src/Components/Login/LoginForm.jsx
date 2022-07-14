@@ -4,15 +4,20 @@ import { useHistory, Link } from "react-router-dom";
 
 export default function LoginForm(props) {
 
-  const [formData, setFormData] = useState({ email: "", password: "" });
+  const [formData, setFormData] = useState({ username: "", password: "" });
 
+  const URL = "http://127.0.0.1:5000";
+  
   const hisotry = useHistory();
 
   const submitLogin = async () => {
-    //TODO: Add Backend Call to validate user
+    
+      //TODO: Validate Login
+
   };
 
   function handleSubmit(event) {
+
     event.preventDefault();
     submitLogin();
   }
@@ -35,20 +40,18 @@ export default function LoginForm(props) {
       </div>
       <div class="mb-3">
         <label for="inputEmail1" class="form-label">
-          Email address
+          Username
         </label>
         <input
-          type="email"
+          type="text"
           class="form-control"
           id="logMail"
           aria-describedby="emailHelp"
-          value={formData.email}
-          name="email"
+          value={formData.username}
+          name="username"
           onChange={handleChange}
+          required
         />
-        <div id="emailHelp" class="form-text">
-          We'll never share your email with anyone else.
-        </div>
       </div>
       <div class="mb-3">
         <label for="exampleInputPassword1" class="form-label">
@@ -61,6 +64,7 @@ export default function LoginForm(props) {
           value={formData.password}
           name="password"
           onChange={handleChange}
+          required
         />
       </div>
 
