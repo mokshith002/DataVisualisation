@@ -4,8 +4,9 @@ from flask_restful import Resource
 import os
 import re
 from application.database import db
-from application.models import Visualization
+from application.models import Visualization, User
 from application.firebaseConfig import storage
+from application.validation import ValidationError
 
 def get_extension(name):
     if re.search(".csv$",name):
@@ -35,14 +36,14 @@ class FileAPI(Resource):
 
         return app.response_class(
             remove(),
-            headers={'Content-Disposition':'attachment', 'filename': v.filename}
+            headers={'Content-Disposition':'attachment'}
         )
 
     def post(self):
         file = request.files['file']
-
+        user_id = request.form.get('user_id')
         v=Visualization()
-        v.user_id = 1
+        v.user_id = user_id
         v.filename = file.filename
         v.time = datetime.now()
         db.session.add(v)
@@ -56,4 +57,25 @@ class FileAPI(Resource):
         storage.child("files/"+name).put(name)
         os.remove(path)
         return 202
+
+
+class AuthAPI(Resource):
+
+    def post(self):
+        data = request.get_json()
+        username = data['username']
+        u = User.query.filter_by(username=username).first()
+
+        if u is not None:
+            raise ValidationError(error_message='Username already taken. Please choose a different username.', status_code=409)
+
+        pwd = data['pwd']
+
+        u = User()
+        u.username = username
+        u.pwd = pwd
+        db.session.add(u)
+        db.session.commit()
+        return 202
+
         
