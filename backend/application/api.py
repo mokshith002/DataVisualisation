@@ -73,6 +73,8 @@ class AuthAPI(Resource):
         username = request.args.get('username')
         u = User.query.filter_by(username=username).first()
 
+        print("Username - " + username)
+
         if u:
             pwd = request.args.get('pwd')
 
