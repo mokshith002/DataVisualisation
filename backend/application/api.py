@@ -1,12 +1,13 @@
 from datetime import datetime
 from flask import request,current_app
-from flask_restful import Resource
+from flask_restful import Resource, fields, marshal_with
 import os
 import re
 from application.database import db
 from application.models import Visualization, User
 from application.firebaseConfig import storage
 from application.validation import ValidationError
+from application.auth import generate_hash, check_hash
 
 def get_extension(name):
     if re.search(".csv$",name):
@@ -59,23 +60,51 @@ class FileAPI(Resource):
         return 202
 
 
+user_output = {
+    "user_id" : fields.Integer,
+    "username" : fields.String
+}
+
 class AuthAPI(Resource):
 
+    @marshal_with(user_output)
+    def get(self):
+        
+        username = request.args.get('username')
+        u = User.query.filter_by(username=username).first()
+
+        if u:
+            pwd = request.args.get('pwd')
+
+            if (check_hash(u.pwd,pwd)):
+                return u
+            
+            raise ValidationError(error_message="Incorrect password.", status_code=401)
+
+        else:
+            raise ValidationError(error_message="No user exists with given username.", status_code=401)
+
+
+    # Sign Up validation. 
+    
+    @marshal_with(user_output)
     def post(self):
         data = request.get_json()
         username = data['username']
         u = User.query.filter_by(username=username).first()
 
-        if u is not None:
+        if u:
             raise ValidationError(error_message='Username already taken. Please choose a different username.', status_code=409)
 
         pwd = data['pwd']
 
         u = User()
         u.username = username
-        u.pwd = pwd
+        u.pwd = generate_hash(pwd)
         db.session.add(u)
         db.session.commit()
-        return 202
+        return u
+
+
 
         
