@@ -38,12 +38,13 @@ export default function Home(props){
         </div>
         <div className="d-flex justify-content-center mt-4">
           <Button className="w-15" variant='contained' component='label'>Choose file
-            <input className="form-control primary" type="file" accept=".csv,.xlsx" id="formFile" hidden onChange={(e) => handleChange(e)}/>
+            <input className="form-control primary w-5" type="file" accept=".csv,.xlsx" id="formFile" hidden onChange={(e) => handleChange(e)}/>
           </Button>
           <input 
             class="form-control w-25"  
             value={file ? file.name : "No File Chosen"} />
         </div>
+
         <div className="d-flex justify-content-center mt-4">
           <select
               class="form-select w-25"

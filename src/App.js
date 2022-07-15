@@ -17,6 +17,7 @@ import PieChart from "./Components/Charts/PieChart"
 import RadarChart from "./Components/Charts/RadarChart";
 import BarGraph from "./Components/Charts/BarGraph";
 import HistoryPage from "./Components/History/Page";
+import NavBar from "./Components/NavBar";
 
 
 function App() {
@@ -82,6 +83,7 @@ function App() {
   return (
     <div>
       <Router>
+        <NavBar/>
         <Switch>
           <Route exact path='/'><Home handleChange={handleChange} file={file}/></Route>
           <Route exact path='/login'><Login /></Route>

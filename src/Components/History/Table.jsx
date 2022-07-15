@@ -54,7 +54,7 @@ export default function Table(props){
    return (
      <div >
        <div className="row text-center">
-         <h2 className="mb-2">All Employees</h2>
+         <h2 className="mb-2">Previous Files</h2>
        </div>
        <div class="text-center d-flex justify-content-center mt-4" style={{ marginTop: 20 }}>
          <a href="/" type="button" class="btn btn-primary mb-5" style={{width:120}}>

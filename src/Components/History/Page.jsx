@@ -1,19 +1,16 @@
 import React from "react";
 import HistoryTable from "./Table";
+import { useHistory } from "react-router-dom";
 
 export default function HistoryPage(props) {
     
 
     const user_id = localStorage.getItem('user_id');
 
+    const history = useHistory()
+
     if(!user_id){
-       return (
-        <div>
-          <div class="col" style={{display: 'flex',  justifyContent:'center', alignItems:'center', height: '50vh'}}>
-              <div class="row"><h1>Error: Login and Try Again</h1></div>
-          </div>
-        </div>
-      )
+       history.push('/login')
     }
 
     const data = [

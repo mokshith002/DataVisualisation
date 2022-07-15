@@ -8,11 +8,21 @@ export default function LoginForm(props) {
 
   const URL = "http://127.0.0.1:5000";
   
-  const hisotry = useHistory();
+  const history = useHistory();
 
   const submitLogin = async () => {
+
+      const req = {
+        username: formData.username,
+        pwd: formData.password
+      }
     
-      //TODO: Validate Login
+      axios.get(`${URL}/user/auth`,{params : req})
+        .then(res => {
+            localStorage.setItem('user_id', res.data.user_id);
+            history.push('/')
+          })
+        .catch(err => alert(err.response.data.error_message))
 
   };
 
