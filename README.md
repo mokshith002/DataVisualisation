@@ -69,7 +69,7 @@ pip3 install -r requirements.txt
 <br>
 
 <li>
-Finally, to the sart the flask app run 
+Finally, to the start the flask app run 
 
 ```
 flask run
