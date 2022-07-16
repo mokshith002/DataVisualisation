@@ -5,7 +5,6 @@ from flask_restful import Resource, fields, marshal_with
 import os
 import re
 
-from requests_toolbelt import user_agent
 from application.database import db
 from application.models import Visualization, User
 from application.firebaseConfig import storage
