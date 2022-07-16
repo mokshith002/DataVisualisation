@@ -39,7 +39,7 @@ export default function NavBar() {
 
   return (
     <>
-      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <nav class="navbar navbar-expand-lg navbar-light bg-light" style={{backgroundColor:"#F8F0E3"}}>
         <div className="container-fluid _container">
           <div class="navbar-brand _logo col-1">
             <a class="navbar-brand" href="/" style={{ margin: "auto", fontSize: 30, marginLeft: 20  }}>
@@ -56,8 +56,9 @@ export default function NavBar() {
           <div
             class="collapse navbar-collapse justify-content-end _nav-container"
             id="navbarNav"
+            style={{marginLeft:550}}
           >
-            <ul class="navbar-nav link-container">
+            <ul class="navbar-nav link-container" >
               <li class="nav-item nav-link">
                 <NavLink
                   to="/history"

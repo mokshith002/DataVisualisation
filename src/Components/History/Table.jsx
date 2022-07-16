@@ -15,9 +15,9 @@ export default function Table(props){
 
   const onFileSelect = async (params) => {
     
-    const {user_id, time, filename} = params.row
+    const {vid, filename} = params.row
 
-    const req = { user_id, time};
+    const req = {vid};
 
     console.log(req);
     

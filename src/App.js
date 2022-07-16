@@ -49,9 +49,9 @@ function App() {
         setHeaders(headings)
   }
 
-  const parseHistory = (content, filename) => {
+  const parseHistory = async (content, filename) => {
 
-    const rows = content.split('\r\n')
+    const rows = content.split('\n')
     const headings = rows[0].split(',');
 
     setHeaders(headings)
@@ -62,7 +62,7 @@ function App() {
       const obj = {}
       const row = rows[i].split(',')
       for(let j = 0; j < row.length; j++){
-        obj[headings[j]] = parseFloat(row[j]) ? parseFloat(row[j]) : row[j]
+        obj[headings[j]] = parseFloat(row[j]) == row[j] ? parseFloat(row[j]) : row[j]
       }
       _data.push(obj);
     }
@@ -76,7 +76,6 @@ function App() {
   }
 
   const handleChange = (e) => {
-    // localStorage.setItem('file', e.target.files[0])
       setFile(e.target.files[0])
   };
 
