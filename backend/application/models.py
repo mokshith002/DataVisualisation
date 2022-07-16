@@ -1,4 +1,3 @@
-from enum import unique
 from application.database import db
 
 class Visualization(db.Model):
@@ -7,6 +6,13 @@ class Visualization(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.user_id'), nullable=False)
     filename = db.Column(db.String, nullable=False)
     time = db.Column(db.DateTime, nullable=False)
+
+    def toDict(self):
+        return {
+            'vid' : self.vid,
+            'filename' : self.filename,
+            'time' : self.time.isoformat()
+        }
     
 class User(db.Model):
     __tablename__ = 'user'

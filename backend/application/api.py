@@ -1,8 +1,11 @@
 from datetime import datetime
+import json
 from flask import request,current_app
 from flask_restful import Resource, fields, marshal_with
 import os
 import re
+
+from requests_toolbelt import user_agent
 from application.database import db
 from application.models import Visualization, User
 from application.firebaseConfig import storage
@@ -19,26 +22,33 @@ class FileAPI(Resource):
 
     def get(self):
         data = request.args
-        uid = data['user_id']
-        time = data['time']
-        v = Visualization.query.filter_by(user_id=uid,time=time).first()
-        cloud_name = str(v.vid) + get_extension(v.filename)
-        local_name = v.filename 
-        storage.child("files/"+cloud_name).download("",local_name)
-     
-        app = current_app
-        path = os.path.join(os.getcwd(),local_name)
-        file = open(path,'rb')
 
-        def remove():
-            yield from file
-            file.close()
-            os.remove(path)
+        if 'vid' in data.keys():
+            vid = data['vid']
+            v = Visualization.query.get(vid)
+            cloud_name = str(v.vid) + get_extension(v.filename)
+            local_name = v.filename 
+            storage.child("files/"+cloud_name).download("",local_name)
+        
+            app = current_app
+            path = os.path.join(os.getcwd(),local_name)
+            file = open(path,'rb')
 
-        return app.response_class(
-            remove(),
-            headers={'Content-Disposition':'attachment'}
-        )
+            def remove():
+                yield from file
+                file.close()
+                os.remove(path)
+
+            return app.response_class(
+                remove(),
+                headers={'Content-Disposition':'attachment'}
+            )
+
+        else:
+            uid = request.args.get('user_id')
+            u = User.query.get(uid)
+            files = [ob.toDict() for ob in u.files]
+            return json.dumps(files)
 
     def post(self):
         file = request.files['file']
@@ -60,6 +70,7 @@ class FileAPI(Resource):
         return 202
 
 
+
 user_output = {
     "user_id" : fields.Integer,
     "username" : fields.String
@@ -67,6 +78,7 @@ user_output = {
 
 class AuthAPI(Resource):
 
+    # Login Validation
     @marshal_with(user_output)
     def get(self):
         
@@ -106,6 +118,9 @@ class AuthAPI(Resource):
         db.session.add(u)
         db.session.commit()
         return u
+
+        
+
 
 
 
